@@ -2,109 +2,12 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<title>boxtest</title>
+	<title>TODO List - JavaScript edition</title>
 
 	<link href="https://fonts.googleapis.com/css?family=Lato|Playfair+Display" rel="stylesheet"> 
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css" integrity="sha384-v2Tw72dyUXeU3y4aM2Y0tBJQkGfplr39mxZqlTBDUZAb9BGoC40+rdFCG0m10lXk" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/fontawesome.css" integrity="sha384-q3jl8XQu1OpdLgGFvNRnPdj5VIlCvgsDQTQB6owSOHWlAurxul7f+JpUOVdAiJ5P" crossorigin="anonymous">
-    
-    <style>
-        body {
-            background-color: #34495e;
-            font-family: "Lato", sans-serif;
-            text-align: center;
-        }
-
-        h1 {
-            font-family: 'Playfair Display', serif;
-            color: white;
-            text-shadow:3px 3px 0 #000;
-            font-size: 60px;
-        }
-
-        footer {
-            font-family: 'Playfair Display', serif;
-            color: #fff;
-            text-shadow:1px 1px 0 #000;
-            margin-top: 2rem;
-        }
-
-       ul {
-            list-style-type: none;
-            padding-left: 0;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: auto;
-        }
-
-        .inputarea {
-            max-width: 800px;
-            margin: auto;
-        }
-
-        input[type=text]{
-            width: 65%;
-        }
-
-        input[type=submit] {
-            width: 30%;
-        }
-
-        li {
-            flex: 0 0 93%;
-            pointer-events: none;
-        }
-
-        .box {
-            padding:10px;
-            word-wrap: break-word;
-            cursor: pointer;
-            display: flex;
-            background: #e1f2f8;
-        }
-
-        .box:nth-child(even) {
-            background: #cce7f0;
-        }
-
-        .box--ticked {
-            background: #34495e;
-            color: lightgray;
-            text-decoration: line-through;
-        }
-
-        .box--ticked:nth-child(even) {
-            background: #34495e;
-        }
-
-        .box--hidden {
-            display: none;
-        }
-
-        /* These are for the editing note icons, not HTML buttons. */
-        .buttons {
-            float: right;
-        }
-
-        .buttons a:link {
-            color: #727171;
-            text-shadow:1px 1px 0 black;
-            padding-left: 4px;
-            padding-right: 4px;
-        }
-
-        .buttons a:visited {
-            color: #727171;
-            text-shadow:1px 1px 0 black;
-        }
-
-        .buttons a:hover {
-            color: rgb(196, 196, 196);
-            text-shadow: none;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
@@ -208,15 +111,13 @@
     // const deletey = document.querySelector(".deletebutton").parentNode.parentNode.childNodes[0].innerHTML;
     // console.log(deletey);
 
-    function deleteFunc(numba) {
-        localStorage.removeItem(numba);
-        location.reload(); 
-    }
+    // function deleteFunc(numba) {
+    //     localStorage.removeItem(numba);
+    //     location.reload(); 
+    // }
     // const deleter = document.querySelectorAll(".deletebutton");
     // deleter.addEventListener("click", deleteFunc());
-    EDIT THIS BIT ^^^^ FIGURE OUT HOW TO FIGURE OUT WHICH DELETE BUTTON GOT CLICKED AND HOW TO PASS THAT TO KEY
-
-
+    
     // CLEAR AND REFRESH FUNC AND SETUP
     function clearAndRefresh(evt) {
         localStorage.clear();
