@@ -24,113 +24,23 @@
     </div>
 
     <ul class="js-ul">
+        <!-- Following line only appears when there are are no items in localstorage -->
         <div class="box box--hidden"><li>Looks like there are no items here. Why not try adding one?</li></div>
 
         <template class="js-list-template">
             <div class="box js-box"><li class="notez"></li>
-                <div class = "buttons js-buttons">
+                <!-- <div class = "buttons js-buttons">
                     <a href="#" title="Edit"><i class="fas fa-pencil-alt"></i></a>
                     <a href="#" title="Delete" class="deletebutton"><i class="fas fa-trash-alt"></i></a>
-                </div>
+                </div> -->
             </div>
         </template>
     </ul>
 </div>
 
-<button class="clearBox">Clear list and refresh page</button>
+<button class="clearBox">Clear list</button>
 
-<script>
-    
-    if (localStorage.length > 0) {
-        for (let i = localStorage.length - 1; i >= 0 ; i-=1 ) {
-            // console.log(localStorage.getItem(localStorage.key(i)));
-            // console.log(localStorage.length);
-            console.log(localStorage);
-
-            const listTemplate = document.querySelector(".js-list-template");
-            const listElement = listTemplate.content.cloneNode(true);
-
-            // Selects empty li, sets input as text node (which sanitises) and appends it in
-            const emptyLi = listElement.querySelector(".notez");
-            const inputValue = localStorage.getItem(localStorage.key(i));
-            const textNodeInput = document.createTextNode(inputValue);
-            emptyLi.appendChild(textNodeInput);
-            
-            // Selects the whole box and gives it the event listener and function
-            const box = listElement.querySelector(".js-box");
-            box.addEventListener("click", tickSwitch);
-
-            const list = document.querySelector(".js-ul");
-            list.appendChild(listElement);
-            list.appendChild(listTemplate);
-        }
-    }
-    else {
-        const hiddenbox = document.querySelector(".box--hidden");
-        hiddenbox.classList.remove("box--hidden");
-    }
-
-    var listofboxes = Array.from(document.querySelectorAll(".js-box"));
-
-    function tickSwitch(evt) {
-        const singleBox = evt.target;
-        if (singleBox.classList.contains("box--ticked")) {
-            singleBox.classList.remove("box--ticked");
-        } else {
-            singleBox.classList.add("box--ticked");
-        }
-    }
-
-    function addItem() {
-        if (document.querySelector(".myInput").value !== "") {
-            const listTemplate = document.querySelector(".js-list-template");
-            const listElement = listTemplate.content.cloneNode(true);
-
-            // Selects empty li, sets input as text node (which sanitises) and appends it in
-            const emptyLi = listElement.querySelector(".notez");
-            const inputValue = document.querySelector(".myInput").value;
-            const textNodeInput = document.createTextNode(inputValue);
-            emptyLi.appendChild(textNodeInput);
-            
-            // Selects the whole box and gives it the event listener and function
-            const box = listElement.querySelector(".js-box");
-            box.addEventListener("click", tickSwitch);
-
-            const list = document.querySelector(".js-ul");
-            list.appendChild(listElement);
-            list.appendChild(listTemplate);
-            localStorage.setItem(localStorage.length, inputValue);
-
-            if (localStorage.length === 1) {
-                location.reload(); 
-            }
-        }
-    }
-
-    // this gets the list text, which IS the value on localstorage which might let you delete it, IF you can map the icon to the delete function, perhaps with evt?
-    // const deletey = document.querySelector(".deletebutton").parentNode.parentNode.childNodes[0].innerHTML;
-    // console.log(deletey);
-
-    // function deleteFunc(numba) {
-    //     localStorage.removeItem(numba);
-    //     location.reload(); 
-    // }
-    // const deleter = document.querySelectorAll(".deletebutton");
-    // deleter.addEventListener("click", deleteFunc());
-    
-    // CLEAR AND REFRESH FUNC AND SETUP
-    function clearAndRefresh(evt) {
-        localStorage.clear();
-        location.reload(); 
-    }
-    const clearbutton = document.querySelector(".clearBox");
-    clearbutton.addEventListener("click", clearAndRefresh);
-    
-
-    listofboxes.forEach(singleBox => {
-        singleBox.addEventListener("click", tickSwitch);
-    });
-</script>
+<script src="script.js"></script>
 
 <footer><sub>© Digital Design Labs</sub></footer>
 

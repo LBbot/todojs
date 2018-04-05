@@ -42,7 +42,8 @@ input[type=submit] {
 }
 
 li {
-    flex: 0 0 93%;
+    /* flex: 0 0 93%; */
+    flex: 0 0 100%;
     pointer-events: none;
 }
 
