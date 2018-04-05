@@ -33,6 +33,19 @@ ul {
     margin: auto;
 }
 
+.error {
+    color: rgb(252, 132, 132);
+    text-shadow:1px 1px 0 black;
+    display: inline-block;
+    margin-top: 5px;
+    padding: 5px;
+    width: 100%;
+}
+
+.error--hidden {
+    display: none;
+}
+
 input[type=text]{
     width: 65%;
 }

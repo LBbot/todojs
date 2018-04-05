@@ -21,11 +21,12 @@
     <div class="inputarea">
         <input type="text" maxlength="120" class="myInput" required>
         <input type="submit" onclick="addItem()" value="Add new item">
-    </div>
+        <div class="error error--hidden"></div>
 
     <ul class="js-ul">
         <!-- Following line only appears when there are are no items in localstorage -->
         <div class="box box--hidden"><li>Looks like there are no items here. Why not try adding one?</li></div>
+        
 
         <template class="js-list-template">
             <div class="box js-box"><li class="notez"></li>
