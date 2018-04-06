@@ -55,14 +55,15 @@ input[type=submit] {
 }
 
 li {
-    /* flex: 0 0 93%; */
-    flex: 0 0 100%;
+    flex: 0 0 98%;
+    /* flex: 0 0 100%; */
     pointer-events: none;
+    word-break: break-all;
 }
 
 .box {
     padding:10px;
-    word-wrap: break-word;
+    word-wrap: break-all;
     cursor: pointer;
     display: flex;
     background: #e1f2f8;
