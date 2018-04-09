@@ -55,8 +55,7 @@ input[type=submit] {
 }
 
 li {
-    flex: 0 0 98%;
-    /* flex: 0 0 100%; */
+    flex: 0 0 93%;
     pointer-events: none;
     word-break: break-all;
 }
@@ -89,23 +88,32 @@ li {
 
 /* These are for the editing note icons, not HTML buttons. */
 .buttons {
-    float: right;
+    /* float: right; */
+    display: flex;
 }
 
     .buttons a:link {
-        color: #727171;
-        text-shadow:1px 1px 0 black;
-        padding-left: 4px;
-        padding-right: 4px;
+        color: #34495e;
+        /* text-shadow:1px 1px 0 black; */
+        padding-left: 3px;
+        padding-right: 3px;
     }
 
     .buttons a:visited {
-        color: #727171;
-        text-shadow:1px 1px 0 black;
+        color: #34495e;
+    }
+
+    .buttons--ticked a:link {
+        color: gray;
+        text-decoration: line-through;
+    }
+
+    .buttons--ticked a:visited {
+        color: gray;
+        text-decoration: line-through;
     }
 
     .buttons a:hover {
         color: rgb(196, 196, 196);
         text-shadow: none;
     }
-    
