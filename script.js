@@ -44,11 +44,11 @@ function populateList() {
 
             // Selects the UP icon, gives it the event listener and function
             const moveUpIcon = listElement.querySelector(".upbutton");
-            moveUpIcon.addEventListener("click", moveUpFunc);
+            moveUpIcon.addEventListener("click", moveFunc);
 
             // Selects the DOWN icon, gives it the event listener and function
             const moveDownIcon = listElement.querySelector(".downbutton");
-            moveDownIcon.addEventListener("click", moveDownFunc);
+            moveDownIcon.addEventListener("click", moveFunc);
 
             // Selects the delete icon, gives it the event listener and delete function
             const deleteIcon = listElement.querySelector(".deletebutton");
@@ -192,37 +192,31 @@ function deleteFunc(evt) {
 }
 
 
-function moveUpFunc(evt) {
+function moveFunc(evt) {
     "use strict";
     const moveIcon = evt.target;
-    // Gets the <li> element content
-    const listContent = moveIcon.parentNode.parentNode.parentNode.childNodes[0].innerHTML;
-    for (let i = 0; i < parsedArray.length; i += 1) {
-        const previous = i - 1;
-        if (parsedArray[i].note === listContent && previous !== -1) {
-            const temp = parsedArray[previous];
-            parsedArray[previous] = parsedArray[i];
-            parsedArray[i] = temp;
-        }
-    }
-    localStorage.setItem("Todolist", JSON.stringify(parsedArray));
-    checkHideError();
-    clearList();
-    populateList();
-}
+    const direction = moveIcon.parentNode.classList.contains("upbutton") ? "up" : "down";
 
-function moveDownFunc(evt) {
-    "use strict";
-    const moveIcon = evt.target;
     // Gets the <li> element content
     const listContent = moveIcon.parentNode.parentNode.parentNode.childNodes[0].innerHTML;
+
     for (let i = 0; i < parsedArray.length; i += 1) {
-        const next = i + 1;
-        if (parsedArray[i].note === listContent && next < parsedArray.length) {
-            const temp = parsedArray[next];
-            parsedArray[next] = parsedArray[i];
-            parsedArray[i] = temp;
-            break;
+        if (parsedArray[i].note === listContent) {
+            const previous = i - 1;
+            const next = i + 1;
+            let targetPosition;
+            if (direction === "up" && previous !== -1) {
+                targetPosition = previous;
+            } else if (direction === "down" && next < parsedArray.length) {
+                targetPosition = next;
+            }
+
+            if (targetPosition !== undefined) {
+                const temp = parsedArray[targetPosition];
+                parsedArray[targetPosition] = parsedArray[i];
+                parsedArray[i] = temp;
+                break;
+            }
         }
     }
     localStorage.setItem("Todolist", JSON.stringify(parsedArray));
