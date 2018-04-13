@@ -1,3 +1,4 @@
+// Set as empty on pageload, populated by populateList() at bottom of file
 let parsedArray = [];
 
 
@@ -25,9 +26,6 @@ function populateList() {
                 hiddenbox.classList.add("box--hidden");
             }
 
-            // DEBUGGING FLUFF TO BE COMMENTED IN AND OUT:
-            // console.log(parsedArray);
-
             // Selects template, and clones it
             const listTemplate = document.querySelector(".js-list-template");
             const listElement = listTemplate.content.cloneNode(true);
@@ -50,9 +48,9 @@ function populateList() {
             const moveDownIcon = listElement.querySelector(".downbutton");
             moveDownIcon.addEventListener("click", moveFunc);
 
-            // Selects the delete icon, gives it the event listener and delete function
+            // Selects the delete icon, gives it the event listener and delete/modal function
             const deleteIcon = listElement.querySelector(".deletebutton");
-            deleteIcon.addEventListener("click", deleteFunc);
+            deleteIcon.addEventListener("click", summonModal);
 
             // Check if ticked
             if (parsedArray[i].ticked === true) {
@@ -83,7 +81,7 @@ function tickSwitch(evt) {
         newBooleanState = false;
     }
 
-    // If is a workaround to stop this being accidentally triggered by the delete button
+    // This is a workaround to stop this being accidentally triggered by the delete button
     if (singleBox.childNodes[0] !== undefined) {
         const listContent = singleBox.childNodes[0].innerHTML; // finds the contents of <li> element
         for (let i = 0; i < parsedArray.length; i += 1) {
@@ -173,18 +171,9 @@ const clearbutton = document.querySelector(".clearBox");
 clearbutton.addEventListener("click", clearFunc);
 
 
-function deleteFunc(evt) {
+function deleteFunc(number) {
     "use strict";
-    const deleteIcon = evt.target;
-    // Gets the <li> element content
-    const listContent = deleteIcon.parentNode.parentNode.parentNode.childNodes[0].innerHTML;
-    for (let i = 0; i < parsedArray.length; i += 1) {
-        if (parsedArray[i].note === listContent) {
-            if (window.confirm("Are you sure you want to delete this item?")) {
-                parsedArray.splice(i, 1);
-            }
-        }
-    }
+    parsedArray.splice(number, 1); // Actual deletion here
     localStorage.setItem("Todolist", JSON.stringify(parsedArray));
     checkHideError();
     clearList();
@@ -205,8 +194,10 @@ function moveFunc(evt) {
             const previous = i - 1;
             const next = i + 1;
             let targetPosition;
+            // Check direction and make sure you can't go up past index 0.
             if (direction === "up" && previous !== -1) {
                 targetPosition = previous;
+            // Check direction and make sure you can't go past the bottom of the list
             } else if (direction === "down" && next < parsedArray.length) {
                 targetPosition = next;
             }
@@ -226,4 +217,58 @@ function moveFunc(evt) {
 }
 
 
+async function summonModal(evt) {
+    "use strict";
+    const deleteIcon = evt.target;
+    // Gets the <li> element content
+    const listContent = deleteIcon.parentNode.parentNode.parentNode.childNodes[0].innerHTML;
+
+    for (let i = 0; i < parsedArray.length; i += 1) {
+        if (parsedArray[i].note === listContent) {
+            const quoteForList = document.querySelector(".quote");
+            // Prep the item to show in the modal
+            quoteForList.innerHTML = parsedArray[i].note;
+            const backgroundModal = document.querySelector(".myModal");
+            // Show modal
+            backgroundModal.classList.remove("myModal--hidden");
+            const modalBox = document.querySelector(".modalContent");
+
+            const result = await new Promise((resolve) => {
+                const yesButton = document.querySelector(".ok");
+                const noButton = document.querySelector(".cancel");
+
+                function resolveFalseFunction() {
+                    resolve(false);
+                }
+
+                // Confirmation resolves the promise with true
+                yesButton.addEventListener("click", () => {
+                    resolve(true);
+                }, {once: true});
+
+                // Click on cancel or background to resolve the promise returning false
+                noButton.addEventListener("click", resolveFalseFunction, {once: true});
+                backgroundModal.addEventListener("click", resolveFalseFunction, {once: true});
+
+                // Stops a click on the inner modal box from dismissing it
+                modalBox.addEventListener("click", e => {
+                    e.stopPropagation();
+                });
+
+            }).catch(ignore => {
+                // If the promise rejects or throws, catch it, so it doesn't error
+                console.log("Error in promise catch " + ignore);
+            });
+
+            if (result) {
+                deleteFunc(i);
+            }
+            backgroundModal.classList.add("myModal--hidden");
+            break;
+        }
+    }
+}
+
+
+// Create list on pageload.
 populateList();
