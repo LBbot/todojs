@@ -1,4 +1,4 @@
-// Set as empty on pageload, populated by populateList() at bottom of file
+// Set as empty on pageload, populated by parsing localStorage in populateList() at bottom of file
 let parsedArray = [];
 
 
@@ -17,7 +17,6 @@ function populateList() {
     // Checks IF it should display empty list message, 2nd condition stops a single delete not triggering it
     if (localStorage.Todolist !== undefined && localStorage.Todolist.length !== 2) {
         parsedArray = JSON.parse(localStorage.Todolist);
-        // ALTERNATIVELY: parsedArray = JSON.parse(localStorage.getItem(localStorage.key(0)));
 
         for (let i = 0; i < parsedArray.length; i += 1) {
             // Checks if you've added a single item and hides the Empty box
@@ -88,9 +87,9 @@ function tickSwitch(evt) {
 
     // This is a workaround to stop this being accidentally triggered by the delete button
     if (singleBox.childNodes[0] !== undefined) {
-
+        // Changes the boolean in the array
         parsedArray[singleBox.getAttribute("data-number")].ticked = newBooleanState;
-
+        // Sets it to the data and repopulates
         localStorage.setItem("Todolist", JSON.stringify(parsedArray));
         clearList();
         populateList();
@@ -107,9 +106,10 @@ function addItem() {
     if (inputTrimmed !== "") {
         // Checks if list is full
         if (parsedArray.length < 10) {
+            // Actually adds to list and then sets to localStorage
             parsedArray.push({"note": inputTrimmed, "ticked": false});
             localStorage.setItem("Todolist", JSON.stringify(parsedArray));
-            checkHideError();
+            hideError();
             clearList();
             populateList();
         } else {
@@ -131,7 +131,7 @@ const submitButton = document.querySelector(".js-submit");
 submitButton.addEventListener("click", addItem);
 
 
-function checkHideError() {
+function hideError() {
     "use strict";
     // Hides the error box if it's there.
     if (document.querySelector(".error") !== null) {
@@ -145,7 +145,7 @@ function checkHideError() {
 function clearFunc() {
     "use strict";
     // Clears error message if needed.
-    checkHideError();
+    hideError();
     // Removes from the DOM
     clearList();
     // Removes from localStorage
@@ -162,7 +162,7 @@ function deleteFunc(number) {
     "use strict";
     parsedArray.splice(number, 1); // Actual deletion here
     localStorage.setItem("Todolist", JSON.stringify(parsedArray));
-    checkHideError();
+    hideError();
     clearList();
     populateList();
 }
@@ -192,7 +192,7 @@ function moveFunc(evt) {
     }
 
     localStorage.setItem("Todolist", JSON.stringify(parsedArray));
-    checkHideError();
+    hideError();
     clearList();
     populateList();
 }
@@ -231,10 +231,6 @@ async function summonModal(evt) {
         modalBox.addEventListener("click", e => {
             e.stopPropagation();
         });
-
-    }).catch(ignore => {
-        // If the promise rejects or throws, catch it, so it doesn't error
-        console.log("Error in promise catch " + ignore);
     });
 
     if (result) {
