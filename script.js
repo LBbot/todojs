@@ -2,6 +2,22 @@
 let parsedArray = [];
 
 
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+        "use strict";
+        navigator.serviceWorker.register("/sw.js").then(function (registration) {
+            // Registration was successful
+            console.log("ServiceWorker registration successful with scope: ", registration.scope);
+        }, function (err) {
+            // registration failed :(
+            console.log("ServiceWorker registration failed: ", err);
+        });
+    });
+} else {
+    console.log("Can't Service Work in this browser apparently.");
+}
+
+
 function clearList() {
     "use strict";
     // removes each ".js-box" FROM THE DOM
@@ -14,58 +30,61 @@ function clearList() {
 
 function populateList() {
     "use strict";
+    // console.log(localStorage); // for debugging
     // Checks IF it should display empty list message, 2nd condition stops a single delete not triggering it
     if (localStorage.Todolist !== undefined && localStorage.Todolist.length !== 2) {
         parsedArray = JSON.parse(localStorage.Todolist);
 
         for (let i = 0; i < parsedArray.length; i += 1) {
-            // Checks if you've added a single item and hides the Empty box
-            if (document.querySelector(".box") !== null) {
-                const hiddenbox = document.querySelector(".box");
-                hiddenbox.classList.add("box--hidden");
+            if (parsedArray[i] !== null) {
+                // Checks if you've added a single item and hides the Empty box
+                if (document.querySelector(".box") !== null) {
+                    const hiddenbox = document.querySelector(".box");
+                    hiddenbox.classList.add("box--hidden");
+                }
+
+                // Selects template, and clones it
+                const listTemplate = document.querySelector(".js-list-template");
+                const listElement = listTemplate.content.cloneNode(true);
+
+                // Selects empty li, sets input as text node (which sanitises) and appends it in
+                const emptyLi = listElement.querySelector(".notez");
+                const inputValue = parsedArray[i].note;
+                const textNodeInput = document.createTextNode(inputValue);
+                emptyLi.appendChild(textNodeInput);
+
+                // Selects the whole box and gives it the event listener and function for ticking it
+                const box = listElement.querySelector(".js-box");
+                box.addEventListener("click", tickSwitch);
+                box.setAttribute("data-number", i);
+
+                // Selects the UP icon, gives it the event listener and function
+                const moveUpIcon = listElement.querySelector(".upbutton");
+                moveUpIcon.addEventListener("click", moveFunc);
+                moveUpIcon.setAttribute("data-number", i);
+
+                // Selects the DOWN icon, gives it the event listener and function
+                const moveDownIcon = listElement.querySelector(".downbutton");
+                moveDownIcon.addEventListener("click", moveFunc);
+                moveDownIcon.setAttribute("data-number", i);
+
+                // Selects the delete icon, gives it the event listener and delete/modal function
+                const deleteIcon = listElement.querySelector(".deletebutton");
+                deleteIcon.addEventListener("click", summonModal);
+                deleteIcon.setAttribute("data-number", i);
+
+                // Check if ticked
+                if (parsedArray[i].ticked === true) {
+                    box.classList.add("box--ticked");
+                    const buttonsToTick = box.childNodes[2];
+                    buttonsToTick.classList.add("buttons--ticked");
+                }
+
+                // Adds the finished box to the UL
+                const list = document.querySelector(".js-ul");
+                list.appendChild(listElement);
+                list.appendChild(listTemplate);
             }
-
-            // Selects template, and clones it
-            const listTemplate = document.querySelector(".js-list-template");
-            const listElement = listTemplate.content.cloneNode(true);
-
-            // Selects empty li, sets input as text node (which sanitises) and appends it in
-            const emptyLi = listElement.querySelector(".notez");
-            const inputValue = parsedArray[i].note;
-            const textNodeInput = document.createTextNode(inputValue);
-            emptyLi.appendChild(textNodeInput);
-
-            // Selects the whole box and gives it the event listener and function for ticking it
-            const box = listElement.querySelector(".js-box");
-            box.addEventListener("click", tickSwitch);
-            box.setAttribute("data-number", i);
-
-            // Selects the UP icon, gives it the event listener and function
-            const moveUpIcon = listElement.querySelector(".upbutton");
-            moveUpIcon.addEventListener("click", moveFunc);
-            moveUpIcon.setAttribute("data-number", i);
-
-            // Selects the DOWN icon, gives it the event listener and function
-            const moveDownIcon = listElement.querySelector(".downbutton");
-            moveDownIcon.addEventListener("click", moveFunc);
-            moveDownIcon.setAttribute("data-number", i);
-
-            // Selects the delete icon, gives it the event listener and delete/modal function
-            const deleteIcon = listElement.querySelector(".deletebutton");
-            deleteIcon.addEventListener("click", summonModal);
-            deleteIcon.setAttribute("data-number", i);
-
-            // Check if ticked
-            if (parsedArray[i].ticked === true) {
-                box.classList.add("box--ticked");
-                const buttonsToTick = box.childNodes[2];
-                buttonsToTick.classList.add("buttons--ticked");
-            }
-
-            // Adds the finished box to the UL
-            const list = document.querySelector(".js-ul");
-            list.appendChild(listElement);
-            list.appendChild(listTemplate);
         }
     // Empty list message
     } else if (document.querySelector(".box--hidden") !== null) {
@@ -86,22 +105,27 @@ function tickSwitch(evt) {
     }
 
     // This is a workaround to stop this being accidentally triggered by the delete button
-    if (singleBox.childNodes[0] !== undefined) {
-        // Changes the boolean in the array
-        parsedArray[singleBox.getAttribute("data-number")].ticked = newBooleanState;
-        // Sets it to the data and repopulates
-        localStorage.setItem("Todolist", JSON.stringify(parsedArray));
-        clearList();
-        populateList();
+    if (singleBox.childNodes[0] !== undefined && singleBox.childNodes[0] !== null) {
+        // This stops any half-missed clicks causing errors
+        if (parsedArray[singleBox.getAttribute("data-number")] !== null) {
+            // Changes the boolean in the array
+            parsedArray[singleBox.getAttribute("data-number")].ticked = newBooleanState;
+            // Sets it to the data and repopulates
+            localStorage.setItem("Todolist", JSON.stringify(parsedArray));
+            clearList();
+            populateList();
+        }
     }
 }
 
 
-function addItem() {
+function addItem(e) {
     "use strict";
+    // Prevent form submitting from refreshing the page
+    e.preventDefault();
+
     const inputItem = document.querySelector(".myInput").value;
     const inputTrimmed = inputItem.trim(); // Removes whitespace
-
     // Checks if blank input
     if (inputTrimmed !== "") {
         // Checks if list is full
@@ -109,6 +133,11 @@ function addItem() {
             // Actually adds to list and then sets to localStorage
             parsedArray.push({"note": inputTrimmed, "ticked": false});
             localStorage.setItem("Todolist", JSON.stringify(parsedArray));
+
+            // Clears the input box, and refocuses it on submit so you can continue typing
+            document.querySelector(".myInput").value = "";
+            document.querySelector(".myInput").focus();
+
             hideError();
             clearList();
             populateList();
@@ -184,8 +213,8 @@ function moveFunc(evt) {
     } else if (direction === "down" && next < parsedArray.length) {
         targetPosition = next;
     }
-
-    if (targetPosition !== undefined) {
+    // Prevents undefined errors & misreading click that turns target item to null
+    if (targetPosition !== undefined && parsedArray[number]) {
         const temp = parsedArray[targetPosition];
         parsedArray[targetPosition] = parsedArray[number];
         parsedArray[number] = temp;
@@ -202,9 +231,12 @@ async function summonModal(evt) {
     "use strict";
     const deleteIcon = evt.target.parentNode;
     const number = deleteIcon.getAttribute("data-number");
-    // Prep the item to show in the modal
+    // Prep the item to show in the modal, sanitise it
     const quoteForList = document.querySelector(".quote");
-    quoteForList.innerHTML = parsedArray[number].note;
+    const inputValue = parsedArray[number].note;
+    const textNodeInput = document.createTextNode(inputValue);
+    quoteForList.innerHTML = ""; // Resets the quote so it doesn't add to old ones.
+    quoteForList.appendChild(textNodeInput);
 
     // Show modal
     const backgroundModal = document.querySelector(".myModal");
