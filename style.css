@@ -82,11 +82,14 @@ li {
 .box--ticked {
     background: #34495e;
     color: lightgray;
-    text-decoration: line-through;
 }
 
 .box--ticked:nth-child(even) {
     background: #34495e;
+}
+
+.box--ticked > li {
+    text-decoration: line-through;
 }
 
 .box--hidden {
@@ -118,13 +121,11 @@ li {
 
         .buttons--ticked a:visited {
             color: gray;
-            text-decoration: none;
         }
 
         .buttons a:hover {
             color: rgb(196, 196, 196);
             text-shadow: none;
-            text-decoration: none;
         }
 
 
