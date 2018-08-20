@@ -104,6 +104,7 @@ li {
         /* text-shadow:1px 1px 0 black; */
         padding-left: 3px;
         padding-right: 3px;
+        text-decoration: none;
     }
 
     .buttons a:visited {
@@ -112,17 +113,18 @@ li {
 
         .buttons--ticked a:link {
             color: gray;
-            text-decoration: line-through;
+            text-decoration: none;
         }
 
         .buttons--ticked a:visited {
             color: gray;
-            text-decoration: line-through;
+            text-decoration: none;
         }
 
         .buttons a:hover {
             color: rgb(196, 196, 196);
             text-shadow: none;
+            text-decoration: none;
         }
 
 

@@ -104,17 +104,14 @@ function tickSwitch(evt) {
         newBooleanState = false;
     }
 
-    // This is a workaround to stop this being accidentally triggered by the delete button
-    if (singleBox.childNodes[0] !== undefined && singleBox.childNodes[0] !== null) {
-        // This stops any half-missed clicks causing errors
-        if (parsedArray[singleBox.getAttribute("data-number")] !== null) {
-            // Changes the boolean in the array
-            parsedArray[singleBox.getAttribute("data-number")].ticked = newBooleanState;
-            // Sets it to the data and repopulates
-            localStorage.setItem("Todolist", JSON.stringify(parsedArray));
-            clearList();
-            populateList();
-        }
+    // Check if the target has a title because the box doesn't. Buttons do and shouldn't be activated. Hacky but works.
+    if (singleBox.getAttribute("title") === null) {
+        // Changes the boolean in the array
+        parsedArray[singleBox.getAttribute("data-number")].ticked = newBooleanState;
+        // Sets it to the data and repopulates
+        localStorage.setItem("Todolist", JSON.stringify(parsedArray));
+        clearList();
+        populateList();
     }
 }
 
@@ -199,7 +196,7 @@ function deleteFunc(number) {
 
 function moveFunc(evt) {
     "use strict";
-    const moveIcon = evt.target.parentNode;
+    const moveIcon = evt.target;
     const direction = moveIcon.classList.contains("upbutton") ? "up" : "down";
     const number = moveIcon.getAttribute("data-number");
     const previous = +number - +1;
@@ -229,7 +226,7 @@ function moveFunc(evt) {
 
 async function summonModal(evt) {
     "use strict";
-    const deleteIcon = evt.target.parentNode;
+    const deleteIcon = evt.target;
     const number = deleteIcon.getAttribute("data-number");
     // Prep the item to show in the modal, sanitise it
     const quoteForList = document.querySelector(".quote");
