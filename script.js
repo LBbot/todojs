@@ -30,7 +30,7 @@ function clearList() {
 
 function populateList() {
     "use strict";
-    console.log(localStorage.Todolist); // for debugging
+    // console.log(localStorage.Todolist); // for debugging
 
     // Checks IF it should NOT display empty list message. On a fresh session or after CLEAR, this will be undefined.
     // If last item is manually deleted this will be empty array (as a string)

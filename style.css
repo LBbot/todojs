@@ -63,7 +63,7 @@ input[type=submit] {
 
 .emptybox {
     padding:10px;
-    word-wrap: break-all;
+    word-wrap: break-word;
     background: #e1f2f8;
 }
 
@@ -175,4 +175,5 @@ input[type=submit] {
 
 .quote {
     color: gray;
+    word-wrap: break-word;
 }
