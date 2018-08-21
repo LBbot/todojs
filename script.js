@@ -62,11 +62,19 @@ function populateList() {
                 const moveUpIcon = listElement.querySelector(".upbutton");
                 moveUpIcon.addEventListener("click", moveFunc);
                 moveUpIcon.setAttribute("data-number", i);
+                // Check if first item on list so we can hide the up button
+                if (i === 0) {
+                    moveUpIcon.classList.add("button--hidden");
+                }
 
                 // Selects the DOWN icon, gives it the event listener and function
                 const moveDownIcon = listElement.querySelector(".downbutton");
                 moveDownIcon.addEventListener("click", moveFunc);
                 moveDownIcon.setAttribute("data-number", i);
+                // Check if last item on list so we can hide the down button
+                if (i === parsedArray.length - 1) {
+                    moveDownIcon.classList.add("button--hidden");
+                }
 
                 // Selects the delete icon, gives it the event listener and delete/modal function
                 const deleteIcon = listElement.querySelector(".deletebutton");

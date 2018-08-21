@@ -103,6 +103,10 @@ input[type=submit] {
     display: none;
 }
 
+.button--hidden {
+    visibility: hidden;
+}
+
 /* These are for the editing note icons, not HTML buttons. */
 .buttons {
     float: right;
