@@ -30,19 +30,19 @@ function clearList() {
 
 function populateList() {
     "use strict";
-    // console.log(localStorage); // for debugging
-    // Checks IF it should display empty list message, 2nd condition stops a single delete not triggering it
-    if (localStorage.Todolist !== undefined && localStorage.Todolist.length !== 2) {
+    console.log(localStorage.Todolist); // for debugging
+
+    // Checks IF it should NOT display empty list message. On a fresh session or after CLEAR, this will be undefined.
+    // If last item is manually deleted this will be empty array (as a string)
+    if (localStorage.Todolist !== undefined && localStorage.Todolist !== "[]") {
         parsedArray = JSON.parse(localStorage.Todolist);
 
-        for (let i = 0; i < parsedArray.length; i += 1) {
-            if (parsedArray[i] !== null) {
-                // Checks if you've added a single item and hides the Empty box
-                if (document.querySelector(".box") !== null) {
-                    const hiddenbox = document.querySelector(".box");
-                    hiddenbox.classList.add("box--hidden");
-                }
+        // Hide the empty list messsage because todo list has things in
+        const hiddenbox = document.querySelector(".emptybox");
+        hiddenbox.classList.add("box--hidden");
 
+        for (let i = 0; i < parsedArray.length; i += 1) {
+            if (parsedArray[i] !== null) { // Is this check necessary?
                 // Selects template, and clones it
                 const listTemplate = document.querySelector(".js-list-template");
                 const listElement = listTemplate.content.cloneNode(true);
@@ -86,7 +86,7 @@ function populateList() {
                 list.appendChild(listTemplate);
             }
         }
-    // Empty list message
+    // ELSE todo list is empty or non-existent so display empty list message
     } else if (document.querySelector(".box--hidden") !== null) {
         const hiddenbox = document.querySelector(".box--hidden");
         hiddenbox.classList.remove("box--hidden");

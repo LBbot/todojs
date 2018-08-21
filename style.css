@@ -61,6 +61,12 @@ input[type=submit] {
     margin: 0;
 }
 
+.emptybox {
+    padding:10px;
+    word-wrap: break-all;
+    background: #e1f2f8;
+}
+
 .box {
     padding:10px;
     word-wrap: break-all;
