@@ -54,10 +54,11 @@ input[type=submit] {
     width: 30%;
 }
 
-li {
+.note {
     flex: 0 0 90%;
     pointer-events: none;
     word-break: break-all;
+    margin: 0;
 }
 
 .box {
@@ -88,7 +89,7 @@ li {
     background: #34495e;
 }
 
-.box--ticked > li {
+.box--ticked > .note {
     text-decoration: line-through;
 }
 

@@ -48,7 +48,7 @@ function populateList() {
                 const listElement = listTemplate.content.cloneNode(true);
 
                 // Selects empty li, sets input as text node (which sanitises) and appends it in
-                const emptyLi = listElement.querySelector(".notez");
+                const emptyLi = listElement.querySelector(".note");
                 const inputValue = parsedArray[i].note;
                 const textNodeInput = document.createTextNode(inputValue);
                 emptyLi.appendChild(textNodeInput);

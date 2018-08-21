@@ -25,16 +25,18 @@
 
     <ul class="js-ul">
         <!-- Following line only appears when there are are no items in localstorage -->
-        <div class="box box--hidden"><li>Looks like there are no items here. Why not try adding one?</li></div>
+        <li class="box box--hidden">Looks like there are no items here. Why not try adding one? Just type into the box above and click "add new item!"</li>
+
 
         <template class="js-list-template">
-            <div class="box js-box"><li class="notez"></li>
+            <li class="box js-box">
+                <p class="note">
                 <div class = "buttons js-buttons">
                     <a href="#" title="Move up" class="upbutton">&#9650;</a>
                     <a href="#" title="Move down" class="downbutton">&#9660;</a>
                     <a href="#" title="Delete" class="deletebutton">X</a>
                 </div>
-            </div>
+            </li>
         </template>
     </ul>
 </div>
