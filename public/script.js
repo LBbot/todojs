@@ -58,6 +58,10 @@ function populateList() {
                 box.addEventListener("click", tickSwitch);
                 box.setAttribute("data-number", i);
 
+                // Select the tickbutton and give it attribute so it knows what to tick
+                const tickIcon = listElement.querySelector(".tickbutton");
+                tickIcon.setAttribute("data-number", i);
+
                 // Selects the UP icon, gives it the event listener and function
                 const moveUpIcon = listElement.querySelector(".upbutton");
                 moveUpIcon.addEventListener("click", moveFunc);
@@ -65,6 +69,9 @@ function populateList() {
                 // Check if first item on list so we can hide the up button
                 if (i === 0) {
                     moveUpIcon.classList.add("button--hidden");
+                }
+                if (i === parsedArray.length - 1) {
+                    moveUpIcon.classList.add("button--firstorlast");
                 }
 
                 // Selects the DOWN icon, gives it the event listener and function
@@ -74,6 +81,9 @@ function populateList() {
                 // Check if last item on list so we can hide the down button
                 if (i === parsedArray.length - 1) {
                     moveDownIcon.classList.add("button--hidden");
+                }
+                if (i === 0) {
+                    moveDownIcon.classList.add("button--firstorlast");
                 }
 
                 // Selects the delete icon, gives it the event listener and delete/modal function
@@ -106,14 +116,20 @@ function tickSwitch(evt) {
     "use strict";
     const singleBox = evt.target;
 
+    // If activated by tick button, we need to climb the DOM to get the ticked status via the classList of the box
+    const statusFromTickbutton = singleBox.parentNode.parentNode.classList;
+
     // Set a boolean to avoid repeating in if/else
     let newBooleanState = true;
     if (singleBox.classList.contains("box--ticked")) {
         newBooleanState = false;
+    } else if (singleBox.getAttribute("class") === "tickbutton" && statusFromTickbutton.contains("box--ticked")) {
+        newBooleanState = false;
     }
 
-    // Check if the target has a title because the box doesn't. Buttons do and shouldn't be activated. Hacky but works.
-    if (singleBox.getAttribute("title") === null) {
+    // Check if the target DOES NOT HAVE a title because the buttons do but the box doesn't.
+    // OR check class so tickbutton works.
+    if (singleBox.getAttribute("title") === null || singleBox.getAttribute("class") === "tickbutton") {
         // Changes the boolean in the array
         parsedArray[singleBox.getAttribute("data-number")].ticked = newBooleanState;
         // Sets it to the data and repopulates

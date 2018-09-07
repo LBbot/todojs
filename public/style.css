@@ -23,6 +23,10 @@ ul {
     padding-left: 0;
 }
 
+li {
+    margin: 0px;
+}
+
 .container {
     max-width: 800px;
     margin: auto;
@@ -46,18 +50,33 @@ ul {
     display: none;
 }
 
+input {
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
 input[type=text]{
     width: 65%;
 }
 
 input[type=submit] {
     width: 30%;
+    border: solid white 1px;
+    border-radius: 5px;
+    background-color: white;
+}
+
+input[type=submit]:active {
+    color: white;
+    background-color: black;
 }
 
 .note {
-    flex: 0 0 90%;
+    flex: auto;
     pointer-events: none;
-    word-break: break-all;
+    hyphens: auto;
+    overflow-wrap: break-word;
+    /* word-break: break-all; */
     margin: 0;
 }
 
@@ -68,8 +87,7 @@ input[type=submit] {
 }
 
 .box {
-    padding:10px;
-    word-wrap: break-all;
+    padding: 10px;
     cursor: pointer;
     display: flex;
     background: #e1f2f8;
@@ -83,8 +101,7 @@ input[type=submit] {
 
 .box:hover {
     transform: scale(1.02, 1.05);
-
-  }
+}
 
 .box--ticked {
     background: #34495e;
@@ -104,50 +121,60 @@ input[type=submit] {
 }
 
 .button--hidden {
-    visibility: hidden;
+    /* visibility: hidden; */
+    display: none;
+}
+
+.button--firstorlast {
+    padding-left: 17px;
+    padding-right: 11px;
 }
 
 /* These are for the editing note icons, not HTML buttons. */
 .buttons {
-    float: right;
-    /* display: flex; */
+    display: flex;
+    color: #34495e;
+    justify-content: flex-end;
 }
 
-    .buttons a:link {
-        color: #34495e;
-        /* text-shadow:1px 1px 0 black; */
-        padding-left: 3px;
-        padding-right: 3px;
-        text-decoration: none;
-    }
+.buttons--ticked {
+    color: gray;
+}
 
-    .buttons a:visited {
-        color: #34495e;
-    }
+.tickbutton, .upbutton, .downbutton, .deletebutton {
+    margin-left: 4px;
+}
 
-        .buttons--ticked a:link {
-            color: gray;
-            text-decoration: none;
-        }
-
-        .buttons--ticked a:visited {
-            color: gray;
-        }
-
-        .buttons a:hover {
-            color: rgb(196, 196, 196);
-            text-shadow: none;
-        }
+.tickbutton:hover, .upbutton:hover, .downbutton:hover, .deletebutton:hover {
+    color: rgb(196, 196, 196);
+}
 
 
 .options {
     width: 30%;
+    border: solid white 1px;
+    border-radius: 5px;
+    background-color: white;
+    padding: 6px;
+    box-shadow: 2px 2px 6px 2px rgba(0,0,0,0.4);
+}
+
+.options:active {
+    color: white;
+    background-color: black;
 }
 
 .clearBox {
     width: 30%;
-    display: block;
-    margin: auto;
+    border: solid white 1px;
+    border-radius: 5px;
+    background-color: white;
+    padding: 6px;
+}
+
+.clearBox:active {
+    color: white;
+    background-color: black;
 }
 
 /* The Modal (background) */
@@ -180,4 +207,34 @@ input[type=submit] {
 .quote {
     color: gray;
     word-wrap: break-word;
+}
+
+@media (max-width: 450px) {
+    .box {
+        padding: 4px;
+    }
+
+    h1 {
+        margin: 0px;
+    }
+
+    .buttons {
+        font-size: xx-large;
+    }
+
+    .tickbutton, .upbutton, .downbutton, .deletebutton {
+        margin: 0px;
+    }
+
+    .button--firstorlast {
+        padding-left: 17px;
+        padding-right: 16px;
+    }
+
+    .options {
+        display: block;
+        margin: 20px auto;
+        width: 100%;
+        padding: 10px;
+    }
 }

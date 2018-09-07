@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>TODO List - JavaScript edition</title>
-    <link href="https://fonts.googleapis.com/css?family=Lato%7CPlayfair+Display" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato%7CPlayfair+Display" rel="stylesheet" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
 </head>
 <body>
 
 <header>
-    <h1>TODO List JS</h1>
+    <h1>TODO: List</h1>
 </header>
 
 <div class="container">
@@ -24,16 +24,17 @@
     </div>
 
     <!-- Following line only appears when there are are no items in localstorage -->
-    <p class="emptybox box--hidden">Looks like there are no items here. Why not try adding one? <br>Just type into the box above and click "add new item!"</p>
+    <p class="emptybox box--hidden">Looks like there are no items here. Why not try adding one?</p>
 
     <ul class="js-ul">
         <template class="js-list-template">
             <li class="box js-box">
                 <p class="note">
                 <div class = "buttons js-buttons">
-                    <a href="#" title="Move up" class="upbutton">&#9650;</a>
-                    <a href="#" title="Move down" class="downbutton">&#9660;</a>
-                    <a href="#" title="Delete" class="deletebutton">X</a>
+                    <div class="upbutton" title="Move up">&#9650;</div>
+                    <div class="downbutton" title="Move down">&#9660;</div>
+                    <div class="tickbutton" title="Tick or untick">&#10003;</div>
+                    <div class="deletebutton" title="Delete">&#10005;</div>
                 </div>
             </li>
         </template>
@@ -42,8 +43,8 @@
 
 <button class="clearBox">Clear list</button>
 
- <!-- Modal only appears on delete-->
- <div class="myModal myModal--hidden">
+<!-- Modal only appears on delete-->
+<div class="myModal myModal--hidden">
     <div class="modalContent">
         <p>Are you sure you want to delete this item?</p>
         <p class = "quote"></p>

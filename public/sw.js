@@ -1,4 +1,4 @@
-const CACHE_NAME = "todo-ls-v1";
+const CACHE_NAME = "todo-ls-v3";
 
 const urlsToCache = [
     "/",
@@ -6,6 +6,22 @@ const urlsToCache = [
     "/style.css",
     "/script.js"
 ];
+
+// This is supposed to delete old serviceworker caches but it doesn't seem to work.
+// Also it should probably be at the bottom of this file
+self.addEventListener("activate", function (event) {
+    "use strict";
+    const cacheWhitelist = [CACHE_NAME];
+    event.waitUntil(
+        caches.keys().then(function (keyList) {
+            return Promise.all(keyList.map(function (key) {
+                if (cacheWhitelist.indexOf(key) === -1) {
+                    return caches.delete(key);
+                }
+            }));
+        })
+    );
+});
 
 self.addEventListener("install", function (event) {
     "use strict";
@@ -33,3 +49,5 @@ self.addEventListener("fetch", function (event) {
             )
     );
 });
+
+
